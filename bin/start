@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+include FileUtils
+
+# path to your application root.
+APP_ROOT = File.expand_path('..', __dir__)
+
+def system!(*args)
+  system(*args) || abort("\n== Command #{args} failed ==")
+end
+
+chdir APP_ROOT do
+  puts '== Installing dependencies =='
+  system('bundle check') || system!('bundle install --jobs=10 --path=.gems/ --clean')
+
+  puts '== Run migrates =='
+  system('bundle exec rake db:create')
+  
+  puts "\n== Removing old logs and tempfiles =="
+  system FileUtils.rm_rf Dir.glob("#{APP_ROOT}/tmp/*")
+
+  puts "\n== Starting application server =="
+  system("bundle exec rails s -b '0.0.0.0' -p 3000")
+end

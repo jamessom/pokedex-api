@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  pokedex_db:
+    container_name: pokedex_db
+    image: postgres:9.5-alpine
+    ports: [ "5432:5432" ]
+    networks: [ pokedex_net ]
+    logging:
+      driver: "none"
+
+  pokedex_api:
+    container_name: pokedex_api
+    build: .
+    command: ruby ./bin/start
+    volumes: [ ".:/pokedex_api", ".gems:/.gems" ]
+    ports: [ "3000:3000" ]
+    networks: [ pokedex_net ]
+    links: [ pokedex_db ]
+    depends_on: [ pokedex_db ]
+
+volumes:
+  .gems:
+
+networks: 
+  pokedex_net:

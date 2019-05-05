@@ -18,7 +18,7 @@ chdir APP_ROOT do
   system('bundle exec rake db:create')
   
   puts "\n== Removing old logs and tempfiles =="
-  system FileUtils.rm_rf Dir.glob("#{APP_ROOT}/tmp/*")
+  system('bundle exec rails tmp:clear')
 
   puts "\n== Starting application server =="
   system("bundle exec rails s -b '0.0.0.0' -p 3000")

@@ -15,10 +15,10 @@ chdir APP_ROOT do
   system('bundle check') || system!('bundle install --jobs=10 --path=.gems/ --clean')
 
   puts '== Run migrates =='
-  system('bundle exec rake db:create')
+  system('bundle exec rake db:create db:migrate db:seed')
   
   puts "\n== Removing old logs and tempfiles =="
-  system('bundle exec rails tmp:clear')
+  system('rm -rf ./tmp/pids/*')
 
   puts "\n== Starting application server =="
   system("bundle exec rails s -b '0.0.0.0' -p 3000")

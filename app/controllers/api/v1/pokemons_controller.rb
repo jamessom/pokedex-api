@@ -3,9 +3,11 @@ class Api::V1::PokemonsController < Api::V1::ApiController
 
   # GET /pokemons
   def index
-    @pokemons = Pokemon.all
+    pokemons = Pokemon.all.page(current_page).per(per_page)
+    pokemons = pokemons.where('name LIKE ?', "%#{params[:filter]}%") if params[:filter]
 
-    render json: @pokemons
+    options = generate_meta(pokemons.total_pages, pokemons.total_count)
+    render json: [pokemons, options]
   end
 
   # GET /pokemons/1
@@ -47,5 +49,9 @@ class Api::V1::PokemonsController < Api::V1::ApiController
     # Only allow a trusted parameter "white list" through.
     def pokemon_params
       params.require(:pokemon).permit(:name, :has_evolution, :evolution_id)
+    end
+
+    def serializer
+      PokemonsSerializer
     end
 end

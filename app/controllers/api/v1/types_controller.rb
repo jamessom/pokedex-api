@@ -3,9 +3,9 @@ class Api::V1::TypesController < Api::V1::ApiController
 
   # GET /types
   def index
-    @types = Type.all
-
-    render json: @types
+    @paginatedTypes = Type.all.page(current_page).per(per_page)
+    options = generate_meta(@paginatedTypes.total_pages, @paginatedTypes.total_count)
+    render json: [@paginatedTypes, options]
   end
 
   # GET /types/1
@@ -47,5 +47,9 @@ class Api::V1::TypesController < Api::V1::ApiController
     # Only allow a trusted parameter "white list" through.
     def type_params
       params.require(:type).permit(:name)
+    end
+
+    def serializer
+      TypesSerializer
     end
 end

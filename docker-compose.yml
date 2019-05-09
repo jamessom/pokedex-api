@@ -18,6 +18,8 @@ services:
     networks: [ pokedex_net ]
     links: [ pokedex_db ]
     depends_on: [ pokedex_db ]
+    environment:
+      RAILS_ENV: 'development'
 
 volumes:
   .gems:

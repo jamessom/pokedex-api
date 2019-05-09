@@ -19,6 +19,8 @@ class Api::V1::PokemonsController < Api::V1::ApiController
   def create
     @pokemon = Pokemon.new(pokemon_params)
 
+    assign_evolution(pokemon_params)
+
     if @pokemon.save
       render json: @pokemon, status: :created
     else
@@ -48,7 +50,14 @@ class Api::V1::PokemonsController < Api::V1::ApiController
 
     # Only allow a trusted parameter "white list" through.
     def pokemon_params
-      params.require(:pokemon).permit(:name, :has_evolution, :evolution_id)
+      params.require(:pokemon).permit(:name, :parent_id)
+    end
+
+    def assign_evolution(pokemon_params)
+      if pokemon_params['parent_id']
+        ancestors = Pokemon.find_by id: pokemon_params['parent_id']
+        @pokemon.parent_id = pokemon_params['parent_id']
+      end
     end
 
     def serializer

@@ -15,7 +15,7 @@ chdir APP_ROOT do
   system('bundle check') || system!('bundle install --jobs=10 --path=.gems/ --clean')
 
   puts '== Run migrates =='
-  system('bundle exec rake db:create db:migrate db:seed')
+  system('bundle exec rails db:create db:migrate db:seed')
   
   puts "\n== Removing old logs and tempfiles =="
   system('rm -rf ./tmp/pids/*')

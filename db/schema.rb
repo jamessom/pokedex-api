@@ -10,17 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_05_210547) do
+ActiveRecord::Schema.define(version: 2019_05_09_072333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "pokemons", force: :cascade do |t|
     t.string "name"
-    t.boolean "has_evolution"
-    t.integer "evolution_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ancestry"
+    t.index ["ancestry"], name: "index_pokemons_on_ancestry"
   end
 
   create_table "types", force: :cascade do |t|

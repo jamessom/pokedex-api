@@ -1,3 +1,10 @@
 class PokemonsSerializer < ApplicationSerializer
-  attributes :name, :has_evolution, :evolution_id
+  attributes :name
+  attribute :evolutions do |record|
+    {
+      descendants: record.descendants,
+      children: record.children,
+      ancestors: record.ancestors
+    }
+  end
 end

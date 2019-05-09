@@ -16,6 +16,8 @@ gem 'rack-attack'
 gem 'fast_jsonapi', '~> 1.5'
 gem 'kaminari', '~> 1.1', '>= 1.1.1'
 
+gem 'ancestry', '~> 3.0', '>= 3.0.6'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.8', '>= 3.8.2'
   gem 'factory_bot_rails', '~> 5.0', '>= 5.0.2'

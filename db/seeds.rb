@@ -33,19 +33,25 @@ types.each do |type|
   Type.create_with(type).find_or_create_by(name: type[:name])
 end
 
+ActiveRecord::Base.connection.reset_pk_sequence!('types')
+ActiveRecord::Base.connection.reset_pk_sequence!('pokemons')
+
+
+bulba = Pokemon.create(id: 1, name: "bulbasaur")
+ivysaur = Pokemon.create(id: 2, name: "ivysaur", parent: bulba)
+venusaur = Pokemon.create(id: 3, name: "venusaur", parent: ivysaur)
+charmander = Pokemon.create(id: 4, name: "charmander")
+charmeleon = Pokemon.create(id: 5, name: "charmeleon", parent: charmander)
+charizard = Pokemon.create(id: 6, name: "charizard", parent: charmeleon)
+squirtle = Pokemon.create(id: 7, name: "squirtle")
+wartortle = Pokemon.create(id: 8, name: "wartortle", parent: squirtle)
+blastoise = Pokemon.create(id: 9, name: "blastoise", parent: blastoise)
+caterpie = Pokemon.create(id: 10, name: "caterpie")
+metapod = Pokemon.create(id: 11, name: "metapod", parent: caterpie)
+butterfree = Pokemon.create(id: 12, name: "butterfree", parent: metapod)
+
+
 pokemons = [
-  {id: 1, name: "bulbasaur"},
-  {id: 2, name: "ivysaur"},
-  {id: 3, name: "venusaur"},
-  {id: 4, name: "charmander"},
-  {id: 5, name: "charmeleon"},
-  {id: 6, name: "charizard"},
-  {id: 7, name: "squirtle"},
-  {id: 8, name: "wartortle"},
-  {id: 9, name: "blastoise"},
-  {id: 10, name: "caterpie"},
-  {id: 11, name: "metapod"},
-  {id: 12, name: "butterfree"},
   {id: 13, name: "weedle"},
   {id: 14, name: "kakuna"},
   {id: 15, name: "beedrill"},
@@ -190,3 +196,5 @@ pokemons = [
 pokemons.each do |pokemon|
   Pokemon.create_with(pokemon).find_or_create_by(name: pokemon[:name])
 end
+
+ActiveRecord::Base.connection.reset_pk_sequence!('pokemons')

@@ -6,12 +6,6 @@ namespace :pokeapi_cc do
 
   task import_pokemons: :environment do
     pokemons = JSON.parse(HTTParty.get("#{pokeapi_url}/pokemon?limit=151").body)
-    # pokemon = {
-    #   id: poke_data['id'],
-    #   name: poke_data['name'],
-    #   sprite: poke_data['sprites']['front_default']
-    # }
-
     arr_pokemons = []
 
     pokemons['results'].map do |pokemon|

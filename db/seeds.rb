@@ -37,18 +37,18 @@ ActiveRecord::Base.connection.reset_pk_sequence!('types')
 ActiveRecord::Base.connection.reset_pk_sequence!('pokemons')
 
 
-bulba = Pokemon.create(id: 1, name: "bulbasaur")
-ivysaur = Pokemon.create(id: 2, name: "ivysaur", parent: bulba)
-venusaur = Pokemon.create(id: 3, name: "venusaur", parent: ivysaur)
-charmander = Pokemon.create(id: 4, name: "charmander")
-charmeleon = Pokemon.create(id: 5, name: "charmeleon", parent: charmander)
-charizard = Pokemon.create(id: 6, name: "charizard", parent: charmeleon)
-squirtle = Pokemon.create(id: 7, name: "squirtle")
-wartortle = Pokemon.create(id: 8, name: "wartortle", parent: squirtle)
-blastoise = Pokemon.create(id: 9, name: "blastoise", parent: blastoise)
-caterpie = Pokemon.create(id: 10, name: "caterpie")
-metapod = Pokemon.create(id: 11, name: "metapod", parent: caterpie)
-butterfree = Pokemon.create(id: 12, name: "butterfree", parent: metapod)
+bulba = Pokemon.create!(id: 1, name: "bulbasaur")
+ivysaur = Pokemon.create!(id: 2, name: "ivysaur", parent: bulba)
+venusaur = Pokemon.create!(id: 3, name: "venusaur", parent: ivysaur)
+charmander = Pokemon.create!(id: 4, name: "charmander")
+charmeleon = Pokemon.create!(id: 5, name: "charmeleon", parent: charmander)
+charizard = Pokemon.create!(id: 6, name: "charizard", parent: charmeleon)
+squirtle = Pokemon.create!(id: 7, name: "squirtle")
+wartortle = Pokemon.create!(id: 8, name: "wartortle", parent: squirtle)
+blastoise = Pokemon.create!(id: 9, name: "blastoise", parent: blastoise)
+caterpie = Pokemon.create!(id: 10, name: "caterpie")
+metapod = Pokemon.create!(id: 11, name: "metapod", parent: caterpie)
+butterfree = Pokemon.create!(id: 12, name: "butterfree", parent: metapod)
 
 
 pokemons = [
@@ -196,5 +196,22 @@ pokemons = [
 pokemons.each do |pokemon|
   Pokemon.create_with(pokemon).find_or_create_by(name: pokemon[:name])
 end
+
+pokemon_types = {
+  1  => { "type_ids" => [4,12] },
+  2  => { "type_ids" => [4,12] },
+  3  => { "type_ids" => [4,12] },
+  4  => { "type_ids" => [10] },
+  5  => { "type_ids" => [10] },
+  6  => { "type_ids" => [3,10] },
+  7  => { "type_ids" => [11] },
+  8  => { "type_ids" => [11] },
+  9  => { "type_ids" => [11] },
+  10 => { "type_ids" => [7] },
+  11 => { "type_ids" => [7] },
+  12 => { "type_ids" => [3,7] },
+}
+
+Pokemon.update(pokemon_types.keys, pokemon_types.values)
 
 ActiveRecord::Base.connection.reset_pk_sequence!('pokemons')

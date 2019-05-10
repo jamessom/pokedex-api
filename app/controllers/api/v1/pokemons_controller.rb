@@ -3,7 +3,7 @@ class Api::V1::PokemonsController < Api::V1::ApiController
 
   # GET /pokemons
   def index
-    pokemons = Pokemon.all.page(current_page).per(per_page)
+    pokemons = Pokemon.all.page(current_page).per(per_page).includes(:types)
     pokemons = pokemons.where('name LIKE ?', "%#{params[:filter]}%") if params[:filter]
 
     options = generate_meta(pokemons.total_pages, pokemons.total_count)
@@ -50,7 +50,12 @@ class Api::V1::PokemonsController < Api::V1::ApiController
 
     # Only allow a trusted parameter "white list" through.
     def pokemon_params
-      params.require(:pokemon).permit(:name, :parent_id)
+      params.require(:pokemon)
+            .permit(
+              :name,
+              :parent_id,
+              :type_ids => []
+            )
     end
 
     def assign_evolution(pokemon_params)

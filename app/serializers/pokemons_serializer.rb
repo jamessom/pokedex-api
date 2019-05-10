@@ -1,5 +1,5 @@
 class PokemonsSerializer < ApplicationSerializer
-  attributes :name
+  attributes :name, :types
   attribute :evolutions do |record|
     {
       descendants: record.descendants,
